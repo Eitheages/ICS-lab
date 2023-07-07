@@ -1,0 +1,49 @@
+# 任柏俊 521021910788
+    .pos 0
+init:
+    irmovq Stack, %rsp # initialize stack pointer
+    irmovq Stack, %rbp
+    jmp Main
+# data
+    .align 8
+ele1:
+    .quad 0x00a
+    .quad ele2
+ele2:
+    .quad 0x0b0
+    .quad ele3
+ele3:
+    .quad 0xc00
+    .quad 0
+
+Main:
+    irmovq ele1, %rdi
+    pushq %rdi
+    call RSum
+    popq %rdi
+    halt
+
+RSum:
+    pushq %rbp
+    rrmovq %rsp, %rbp
+    mrmovq 16(%rbp), %rdi # ls
+    andq %rdi, %rdi
+    je End1
+    mrmovq (%rdi), %rsi # val
+    pushq %rsi
+    mrmovq 8(%rdi), %rdi # ls = ls->next
+    pushq %rdi
+    call RSum
+    popq %rdi
+    popq %rsi
+    addq %rsi, %rax
+    jmp End
+End1:
+    irmovq $0, %rax
+    jmp End
+End:
+    popq %rbp
+    ret
+
+	.pos 0x200
+Stack:	# The stack goes here

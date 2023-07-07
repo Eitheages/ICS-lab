@@ -1,0 +1,12 @@
+[
+  {
+    "directory": "/home/rbj/codeplace/ics521021910788/lab8",
+    "command": "gcc -g -Wall -Werror -std=c99 -m64 -O0 -c trans.c",
+    "file": "trans.c"
+  },
+  {
+    "directory": "/home/rbj/codeplace/ics521021910788/lab8",
+    "command": "gcc -g -Wall -Werror -std=c99 -m64 -o csim csim.c cachelab.c -lm",
+    "file": "csim.c"
+  }
+]

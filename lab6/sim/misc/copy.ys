@@ -1,0 +1,48 @@
+# 任柏俊 521021910788
+    .pos 0
+init:
+    irmovq Stack, %rsp # initialize stack pointer
+    irmovq Stack, %rbp
+    jmp Main
+
+# global variable
+    .align 8
+# Source block
+src:
+    .quad 0x00a
+    .quad 0x0b0
+    .quad 0xc00
+# Destination block
+dest:
+    .quad 0x111
+    .quad 0x222
+    .quad 0x333
+
+Main:
+    irmovq src, %rdi
+    irmovq dest, %rsi
+    irmovq $3, %rdx
+    call CopyBlock
+    halt
+
+CopyBlock:
+    pushq %rbp
+    rrmovq %rsp, %rbp
+    xorq %rax, %rax
+    andq %rdx, %rdx
+    jle End
+Loop:
+    mrmovq (%rdi), %rcx
+    irmovq $8, %rbx
+    addq %rbx, %rdi
+    rmmovq %rcx, (%rsi)
+    addq %rbx, %rsi
+    xorq %rcx, %rax
+    irmovq $-1, %rbx
+    addq %rbx, %rdx
+    jg Loop
+End:
+    popq %rbp
+    ret
+	.pos 0x200
+Stack:	# The stack goes here
